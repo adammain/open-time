@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './CalendarSchedule.css'
+
 function CalendarSchedule() {
   return (
     <div className='CalendarSchedule'>
