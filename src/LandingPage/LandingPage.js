@@ -21,9 +21,11 @@ function LandingPage() {
               {/* TODO: Create button component */}
               <div className='LandingPage__footer--button-wrapper'>
                 {/* <label>Login with your Flica account credentials.</label> */}
-                <button className='Landing__button'>
-                  <Link to={'/login'}>Login with Flica Credentials</Link>
-                </button>
+                <Link to={'/login'}>
+                  <button className='Landing__button'>
+                    Login with Flica Credentials
+                  </button>
+                </Link>
               </div>
             </section>
         </footer>

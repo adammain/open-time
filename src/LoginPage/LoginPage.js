@@ -36,9 +36,9 @@ function LoginPage() {
             required />
         </div>
         <div className='LoginPage__login-button'>
-          <button>
-            <Link to='/dashboard'>Submit</Link>
-          </button>
+          <Link to='/dashboard'>
+            <button>Submit</button>
+          </Link>
         </div>
       </form>
     </section>
