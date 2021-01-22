@@ -1,0 +1,29 @@
+.hidden {
+  visibility: hidden;
+}
+
+@media (min-width: 576px) {
+  .Dashboard__container {
+    display: flex;
+  }
+  
+  .Dashboard__section {
+    flex-grow: 1;
+  }
+  
+  .Dashboard__aside--aside {
+    width: 20vw;
+    height: 100vh;
+    background-color: lightgray;
+  }
+}
+
+@media only screen and (min-width: 701px) {
+  .hidden {
+    visibility: visible;
+  }
+}
+
+
+
+

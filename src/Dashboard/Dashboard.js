@@ -1,16 +1,24 @@
 import React from 'react'
 import CalendarSchedule from '../CalendarSchedule/CalendarSchedule'
 import OTFeed from '../OTFeed/OTFeed'
+import NotificationFilter from '../NotificationFilter/NotificationFilter'
+import './Dashboard.css'
 
 function Dashboard() {
   return (
-    <main>
-      <section className='Dashboard__section'>
-        <CalendarSchedule />
-      </section>
-      <section className='Dashboard__section'>
-        <OTFeed />
-      </section>
+    <main className='Dashboard'>
+      <div className='Dashboard__container'>
+        <aside className='Dashboard__aside--aside'>
+          <CalendarSchedule />
+        </aside>
+        <section className='Dashboard__section'>
+          <h2>OPENTIME Feed</h2>
+          <OTFeed />
+        </section>
+        <aside className='Dashboard__aside--aside hidden'>
+          <NotificationFilter />
+        </aside>
+      </div>
     </main>
   )
 }
