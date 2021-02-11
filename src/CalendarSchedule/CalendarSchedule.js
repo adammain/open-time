@@ -88,7 +88,6 @@ const CalendarSchedule = (props) => {
             </tr>
           )
         })
-        console.log({calRows})
     return calRows
   }
   const row = renderTableRow()

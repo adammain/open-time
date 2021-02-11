@@ -59,7 +59,7 @@ function Dashboard() {
   React.useEffect(() => {
     fetchData()
   }, [fetchData])
-
+  
   return (
     <main className='Dashboard'>
       <div className='Dashboard__container'>
