@@ -63,6 +63,7 @@ const CalendarSchedule = (props) => {
     fetchUserSchedule()
   }, [fetchUserSchedule])
 
+  // @TODO Debug why 14th and 15th both show DEN arrival instead of last leg arrival
   const renderTableRow = () => {
     let calRows = 
       calendarDaysResponse && calendarDaysResponse.days_in_month

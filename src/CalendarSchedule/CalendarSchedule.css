@@ -22,11 +22,11 @@
   position: relative;
   width: 100%;
   background: white;
-  border: 1px solid lightgray;
+  /* border: 1px solid lightgray; */
   margin: 0 auto;
   height: 35vh;
   /* Remove below for real cal */
-  background-color: lightgray;
+  /* background-color: lightgray; */
   }
   .CalendarSchedule .header {
   text-transform: uppercase;

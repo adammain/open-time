@@ -46,7 +46,6 @@ function Dashboard() {
         return Promise.all([pairingsRes.json(), pairingLegsRes.json(), employeeesRes.json(), layoversRes.json(), hotelsRes.json()])
       })
       .then(([pairings, pairingLegs, employeees, layovers, hotels]) => {
-        // @TODO setResonseData hook
         setPairingsResponseData(pairings)
         setPairingsLegsResponseData(pairingLegs.reverse())
         setEmployeeesResData(employeees)
@@ -59,7 +58,7 @@ function Dashboard() {
   React.useEffect(() => {
     fetchData()
   }, [fetchData])
-  
+
   return (
     <main className='Dashboard'>
       <div className='Dashboard__container'>
@@ -74,7 +73,13 @@ function Dashboard() {
         </aside>
         <section className='Dashboard__section'>
           <h2>OPENTIME Feed</h2>
-          <OTFeed />
+          <OTFeed 
+            pairings={pairingsResponse} 
+            pairingLegs={pairingLegsResponse}
+            employees={employeeesResponse}
+            layovers={layoversResponse}
+            hotels={hotelsResponse}
+          />
         </section>
         <aside className='Dashboard__aside hidden'>
           <NotificationFilter />
