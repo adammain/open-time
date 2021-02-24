@@ -33,8 +33,11 @@
   height: 90vh;
 }
 
-button .Btn__add:hover ~ .TableData__Arrival {
-  background-color: lightgray;
+.td--peeking {
+  background-color: #FFD700;
+  opacity: .6;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.3s;
 }
 
 /* .CalendarSchedule .header {

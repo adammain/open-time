@@ -1,5 +1,6 @@
 import React from 'react'
 // import { Link } from 'react-router-dom'
+import { eachDayOfInterval } from 'date-fns'
 
 import './OTPairing.css'
 
@@ -20,9 +21,16 @@ function OTPairing(props) {
   const layovers = props.layovers && props.layovers.map(layover => layover.airport)
   const duration = pairing.duration
   const pairStartDate = new Date(pairing.pair_start)
+  const pairEndDate = new Date(pairing.pair_end)
+  const pairDateInterval = {
+    start: {year: pairStartDate.getFullYear(), month: pairStartDate.getMonth(), day: pairStartDate.getDate()},
+    end: {year: pairEndDate.getFullYear(), month: pairEndDate.getMonth(), day: pairEndDate.getDate()}
+  }
+  console.log({pairStartDate},{pairDateInterval})
   let reportTime = new Date(pairing.report)
   let pairDepartTime = pairingLegs.length && pairingLegs[pairingLegs.length-1].depTime
   let pairArrivalTime = pairingLegs.length && pairingLegs[0].arrTime
+
   // datetime converted to "01:20" milatary format
   reportTime = ("0" + reportTime.getHours()).slice(-2) + ':' + (reportTime.getMinutes() < 10 ? '0' : '') + reportTime.getMinutes()
   pairDepartTime = pairDepartTime && ("0" + pairDepartTime.getHours()).slice(-2) + ':' + (pairDepartTime.getMinutes() < 10 ? '0' : '') + pairDepartTime.getMinutes()
@@ -77,7 +85,8 @@ function OTPairing(props) {
             <button 
               className='Btn__add' 
               onClick={() => props.onAddPairing(pairing.id)}
-              onMouseEnter={() => props.onHover(pairingLegs, pairing.id)}
+              onMouseEnter={() => props.onHover(pairDateInterval)}
+              onMouseLeave={() => props.onHover(false)}
             >
               Add
             </button>

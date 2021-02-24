@@ -1,7 +1,7 @@
 import React from 'react'
 import CalendarSchedule from '../CalendarSchedule/CalendarSchedule'
 import OTFeed from '../OTFeed/OTFeed'
-import NotificationFilter from '../NotificationFilter/NotificationFilter'
+// import NotificationFilter from '../NotificationFilter/NotificationFilter'
 import config from '../config'
 import './Dashboard.css'
 
@@ -17,7 +17,7 @@ function Dashboard() {
   const userId = '30984'
   let [calendarDaysResponse, setCalendarDaysResponseData] = React.useState('')
   let [userScheduleResponse, setUserScheduleResponseData] = React.useState('')
-  const [isPeekingDates, setIsPeekingDates] = React.useState(false)
+  const [isPeekingDateInterval, setIsPeekingDateInterval] = React.useState(false)
 
   const fetchData = React.useCallback(() => { 
     const fetchBody = {
@@ -80,9 +80,8 @@ function Dashboard() {
     // console.log('addpairingtosched', id)
   }
 
-  const handlePairingHover = (legs, id) => {
-    // console.log(...legs, id)
-    setIsPeekingDates(...legs, id)
+  const handlePairingHover = (pairDateInterval) => {
+    setIsPeekingDateInterval(pairDateInterval)
   }
 
   return (
@@ -97,7 +96,7 @@ function Dashboard() {
             hotels={hotelsResponse}
             calendarDays={calendarDaysResponse}
             userSchedule={userScheduleResponse}
-            peekingDates={isPeekingDates}
+            peekingDateInterval={isPeekingDateInterval}
           />
         </aside>
         <section className='Dashboard__section'>
@@ -109,15 +108,15 @@ function Dashboard() {
             layovers={layoversResponse}
             hotels={hotelsResponse}
             handleAddPairing={(id) => handleAddPairing(id)}
-            onPairHover={(legs, id) => handlePairingHover(legs, id)}
+            onPairHover={(pairingInterval) => handlePairingHover(pairingInterval)}
           />
         </section>
-        {
+        {/* {
           isPeekingDates && 
           <aside className='Dashboard__aside hidden'>
             <NotificationFilter />
           </aside>
-        }
+        } */}
       </div>
     </main>
   )

@@ -1,5 +1,5 @@
 import React from 'react'
-import { isAfter } from 'date-fns'
+import { format, isAfter, isWithinInterval } from 'date-fns'
 import config from '../config'
 
 import './CalendarSchedule.css'
@@ -29,7 +29,8 @@ const CalendarSchedule = (props) => {
   const calendarDays = props.calendarDays
   const userSchedule = props.userSchedule
   const pairingLegs = props.pairingLegs
-  // console.log({userSchedule})
+  const peekingDateInterval = props.peekingDateInterval
+  let isPeeking = false
   // @TODO Debug why some days show DEN arrival instead of last leg arrival
   // Create state for userSchedule, update it after bidding on trip
   const renderTableRow = () => {
@@ -38,7 +39,21 @@ const CalendarSchedule = (props) => {
         .map(day => {
           const calDay = new Date(day).getDate()
           const calMonth = new Date(day).getMonth()
-          
+          const calYear = new Date(day).getFullYear()
+          const today = new Date(day)
+          const tmrw = new Date("2021-02-28T07:00:00.000Z")
+          // console.log({calDay}, {peekingDateInterval})
+          if (props.peekingDateInterval && isWithinInterval(new Date(calYear, calMonth, calDay), {
+            start: new Date(peekingDateInterval.start.year, peekingDateInterval.start.month, peekingDateInterval.start.day),
+            end: new Date(peekingDateInterval.end.year, peekingDateInterval.end.month, peekingDateInterval.end.day)
+          })) {
+            isPeeking = true
+            // console.log({isPeeking})
+          } else {
+            isPeeking = false
+            // console.log({isPeeking})
+          }
+
           const tripStartToday = userSchedule ? userSchedule.find(pairing => {
             const startDate = new Date(pairing.pair_start).getMonth() + '' + new Date(pairing.pair_start).getDate()
             if (startDate === calMonth + '' + calDay) {
@@ -69,7 +84,7 @@ const CalendarSchedule = (props) => {
               <td>{getCalDay(new Date(day).getDay())}</td>
               <td>{calDay ? calDay : null}</td>
               <td>{tripStartToday ? tripStartToday.pairing_id : null}</td>
-              <td className={props.isPeeking ? 'td--peeking' : ''}>
+              <td className={isPeeking ? 'td--peeking' : ''}>
                 {lastLegToday ? lastLegToday.arrival_service : null}
               </td>
             </tr>

@@ -19,7 +19,7 @@ function OTFeed(props) {
                   layovers={props.layovers && props.layovers.filter(layover => layover.pairing === pair.id)}
                   hotels={props.hotels}
                   onAddPairing={(id) => props.handleAddPairing(id)}
-                  onHover={(legs, id) => props.onPairHover(legs, id)}
+                  onHover={(pairDateInterval) => props.onPairHover(pairDateInterval)}
                 />
               ) 
             : <div>Nothing in Opentime</div>
