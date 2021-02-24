@@ -29,8 +29,8 @@ const CalendarSchedule = (props) => {
   const calendarDays = props.calendarDays
   const userSchedule = props.userSchedule
   const pairingLegs = props.pairingLegs
-  const peekingDateInterval = props.peekingDateInterval
-  let isPeeking = false
+  const highlightDateInterval = props.highlightDateInterval
+  let isHighlightingDates = false
   // @TODO Debug why some days show DEN arrival instead of last leg arrival
   // Create state for userSchedule, update it after bidding on trip
   const renderTableRow = () => {
@@ -42,16 +42,13 @@ const CalendarSchedule = (props) => {
           const calYear = new Date(day).getFullYear()
           const today = new Date(day)
           const tmrw = new Date("2021-02-28T07:00:00.000Z")
-          // console.log({calDay}, {peekingDateInterval})
-          if (props.peekingDateInterval && isWithinInterval(new Date(calYear, calMonth, calDay), {
-            start: new Date(peekingDateInterval.start.year, peekingDateInterval.start.month, peekingDateInterval.start.day),
-            end: new Date(peekingDateInterval.end.year, peekingDateInterval.end.month, peekingDateInterval.end.day)
+          if (highlightDateInterval && isWithinInterval(new Date(calYear, calMonth, calDay), {
+            start: new Date(highlightDateInterval.start.year, highlightDateInterval.start.month, highlightDateInterval.start.day),
+            end: new Date(highlightDateInterval.end.year, highlightDateInterval.end.month, highlightDateInterval.end.day)
           })) {
-            isPeeking = true
-            // console.log({isPeeking})
+            isHighlightingDates = true
           } else {
-            isPeeking = false
-            // console.log({isPeeking})
+            isHighlightingDates = false
           }
 
           const tripStartToday = userSchedule ? userSchedule.find(pairing => {
@@ -84,7 +81,7 @@ const CalendarSchedule = (props) => {
               <td>{getCalDay(new Date(day).getDay())}</td>
               <td>{calDay ? calDay : null}</td>
               <td>{tripStartToday ? tripStartToday.pairing_id : null}</td>
-              <td className={isPeeking ? 'td--peeking' : ''}>
+              <td className={isHighlightingDates ? 'td--peeking' : ''}>
                 {lastLegToday ? lastLegToday.arrival_service : null}
               </td>
             </tr>

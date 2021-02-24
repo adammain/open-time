@@ -3,7 +3,6 @@ import OTPairing from '../OTPairing/OTPairing'
 
 function OTFeed(props) {
   let [pairingsResponse, setPairingsResponseData] = React.useState('')
-
   return (
     <div className='OTFeed'>
       <div className='OTFeed__wrapper'>

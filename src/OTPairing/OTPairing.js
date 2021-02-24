@@ -1,6 +1,6 @@
 import React from 'react'
 // import { Link } from 'react-router-dom'
-import { eachDayOfInterval } from 'date-fns'
+import { format } from 'date-fns'
 
 import './OTPairing.css'
 
@@ -22,19 +22,16 @@ function OTPairing(props) {
   const duration = pairing.duration
   const pairStartDate = new Date(pairing.pair_start)
   const pairEndDate = new Date(pairing.pair_end)
+
+  // create date interval of pairing to pass to calendar callback for cal pairing peek highlight feature
   const pairDateInterval = {
     start: {year: pairStartDate.getFullYear(), month: pairStartDate.getMonth(), day: pairStartDate.getDate()},
     end: {year: pairEndDate.getFullYear(), month: pairEndDate.getMonth(), day: pairEndDate.getDate()}
   }
-  console.log({pairStartDate},{pairDateInterval})
-  let reportTime = new Date(pairing.report)
-  let pairDepartTime = pairingLegs.length && pairingLegs[pairingLegs.length-1].depTime
-  let pairArrivalTime = pairingLegs.length && pairingLegs[0].arrTime
-
-  // datetime converted to "01:20" milatary format
-  reportTime = ("0" + reportTime.getHours()).slice(-2) + ':' + (reportTime.getMinutes() < 10 ? '0' : '') + reportTime.getMinutes()
-  pairDepartTime = pairDepartTime && ("0" + pairDepartTime.getHours()).slice(-2) + ':' + (pairDepartTime.getMinutes() < 10 ? '0' : '') + pairDepartTime.getMinutes()
-  pairArrivalTime = pairArrivalTime && ("0" + pairArrivalTime.getHours()).slice(-2) + ':' + (pairArrivalTime.getMinutes() < 10 ? '0' : '') + pairArrivalTime.getMinutes()
+  // pairing datetime's converted to "01:20" milatary format
+  let reportTime = format(new Date(pairing.report), 'HH:mm')
+  let pairDepartTime = pairingLegs.length && format(pairingLegs[0].depTime, 'HH:mm')
+  let pairArrivalTime = pairingLegs.length && format(pairingLegs[pairingLegs.length-1].arrTime, 'HH:mm')
   // const hotels = props.hotels
   return (
     <div className='OTPairing'>

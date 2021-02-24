@@ -17,7 +17,7 @@ function Dashboard() {
   const userId = '30984'
   let [calendarDaysResponse, setCalendarDaysResponseData] = React.useState('')
   let [userScheduleResponse, setUserScheduleResponseData] = React.useState('')
-  const [isPeekingDateInterval, setIsPeekingDateInterval] = React.useState(false)
+  const [isHighlightingDateInterval, setIsHighlightingDateInterval] = React.useState(false)
 
   const fetchData = React.useCallback(() => { 
     const fetchBody = {
@@ -81,7 +81,7 @@ function Dashboard() {
   }
 
   const handlePairingHover = (pairDateInterval) => {
-    setIsPeekingDateInterval(pairDateInterval)
+    setIsHighlightingDateInterval(pairDateInterval)
   }
 
   return (
@@ -96,7 +96,7 @@ function Dashboard() {
             hotels={hotelsResponse}
             calendarDays={calendarDaysResponse}
             userSchedule={userScheduleResponse}
-            peekingDateInterval={isPeekingDateInterval}
+            highlightDateInterval={isHighlightingDateInterval}
           />
         </aside>
         <section className='Dashboard__section'>
