@@ -33,7 +33,7 @@
   height: 90vh;
 }
 
-.td--peeking {
+.td--highlight {
   background-color: #FFD700;
   opacity: .6;
   transition-timing-function: ease-in-out;

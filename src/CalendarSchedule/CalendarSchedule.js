@@ -81,7 +81,7 @@ const CalendarSchedule = (props) => {
               <td>{getCalDay(new Date(day).getDay())}</td>
               <td>{calDay ? calDay : null}</td>
               <td>{tripStartToday ? tripStartToday.pairing_id : null}</td>
-              <td className={isHighlightingDates ? 'td--peeking' : ''}>
+              <td className={isHighlightingDates ? 'td--highlight' : ''}>
                 {lastLegToday ? lastLegToday.arrival_service : null}
               </td>
             </tr>
