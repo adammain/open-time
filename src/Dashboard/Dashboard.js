@@ -11,6 +11,13 @@ function Dashboard() {
   let [employeeesResponse, setEmployeeesResData] = React.useState('')
   let [layoversResponse, setLayoversResData] = React.useState('')
   let [hotelsResponse, setHotelsResData] = React.useState('')
+  // @TODO allow user to select calendar month 
+  const selectedMonth = '2'
+  // @TODO get logged in user's employee number (used for login) or get from FLICA after logged in??
+  const userId = '30984'
+  let [calendarDaysResponse, setCalendarDaysResponseData] = React.useState('')
+  let [userScheduleResponse, setUserScheduleResponseData] = React.useState('')
+  const [isPeekingDates, setIsPeekingDates] = React.useState(false)
 
   const fetchData = React.useCallback(() => { 
     const fetchBody = {
@@ -25,9 +32,11 @@ function Dashboard() {
       fetch(`${config.API_BASE_URL}/pairing-legs/`, fetchBody),
       fetch(`${config.API_BASE_URL}/employees/`, fetchBody),
       fetch(`${config.API_BASE_URL}/layovers/`, fetchBody),
-      fetch(`${config.API_BASE_URL}/hotels/`, fetchBody)
+      fetch(`${config.API_BASE_URL}/hotels/`, fetchBody),
+      fetch(`${config.API_BASE_URL}/schedules/${selectedMonth}`, fetchBody),
+      fetch(`${config.API_BASE_URL}/schedules?id=${userId}`, fetchBody)
     ])
-      .then(([pairingsRes, pairingLegsRes, employeeesRes, layoversRes, hotelsRes]) => {
+      .then(([pairingsRes, pairingLegsRes, employeeesRes, layoversRes, hotelsRes, calDaysRes, userScheduleRes]) => {
         if (!pairingsRes.ok) {
           return pairingsRes.json().then(e => Promise.reject(e))
         }
@@ -43,14 +52,22 @@ function Dashboard() {
         if (!hotelsRes.ok) {
           return hotelsRes.json().then(e => Promise.reject(e))
         } 
-        return Promise.all([pairingsRes.json(), pairingLegsRes.json(), employeeesRes.json(), layoversRes.json(), hotelsRes.json()])
+        if (!calDaysRes.ok) {
+          return calDaysRes.json().then(e => Promise.reject(e))
+        }
+        if (!userScheduleRes.ok) {
+          return userScheduleRes.json().then(e => Promise.reject(e))
+        }
+        return Promise.all([pairingsRes.json(), pairingLegsRes.json(), employeeesRes.json(), layoversRes.json(), hotelsRes.json(), calDaysRes.json(), userScheduleRes.json()])
       })
-      .then(([pairings, pairingLegs, employeees, layovers, hotels]) => {
+      .then(([pairings, pairingLegs, employeees, layovers, hotels, calDays, userSchedule]) => {
         setPairingsResponseData(pairings)
-        setPairingsLegsResponseData(pairingLegs.reverse())
+        setPairingsLegsResponseData(pairingLegs)
         setEmployeeesResData(employeees)
         setLayoversResData(layovers)
         setHotelsResData(hotels)
+        setCalendarDaysResponseData(calDays)
+        setUserScheduleResponseData(userSchedule)
       })
       .catch(err => console.log('there has been an error.', err))
   }, [])
@@ -58,6 +75,15 @@ function Dashboard() {
   React.useEffect(() => {
     fetchData()
   }, [fetchData])
+
+  const handleAddPairing = (id) => {
+    // console.log('addpairingtosched', id)
+  }
+
+  const handlePairingHover = (legs, id) => {
+    // console.log(...legs, id)
+    setIsPeekingDates(...legs, id)
+  }
 
   return (
     <main className='Dashboard'>
@@ -69,6 +95,9 @@ function Dashboard() {
             employees={employeeesResponse}
             layovers={layoversResponse}
             hotels={hotelsResponse}
+            calendarDays={calendarDaysResponse}
+            userSchedule={userScheduleResponse}
+            peekingDates={isPeekingDates}
           />
         </aside>
         <section className='Dashboard__section'>
@@ -79,11 +108,16 @@ function Dashboard() {
             employees={employeeesResponse}
             layovers={layoversResponse}
             hotels={hotelsResponse}
+            handleAddPairing={(id) => handleAddPairing(id)}
+            onPairHover={(legs, id) => handlePairingHover(legs, id)}
           />
         </section>
-        <aside className='Dashboard__aside hidden'>
-          <NotificationFilter />
-        </aside>
+        {
+          isPeekingDates && 
+          <aside className='Dashboard__aside hidden'>
+            <NotificationFilter />
+          </aside>
+        }
       </div>
     </main>
   )

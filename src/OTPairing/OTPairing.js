@@ -74,7 +74,13 @@ function OTPairing(props) {
             {/* <div>{layovers}</div> */}
           </div>
           <div>
-            <button>Add</button>
+            <button 
+              className='Btn__add' 
+              onClick={() => props.onAddPairing(pairing.id)}
+              onMouseEnter={() => props.onHover(pairingLegs, pairing.id)}
+            >
+              Add
+            </button>
           </div>
           {/* @TODO Add Bid Button with status updates */}
         </div>

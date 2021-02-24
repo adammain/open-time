@@ -1,4 +1,5 @@
 import React from 'react'
+import { isAfter } from 'date-fns'
 import config from '../config'
 
 import './CalendarSchedule.css'
@@ -25,67 +26,52 @@ const getCalDay = day => {
 }
 
 const CalendarSchedule = (props) => {
-  // @TODO allow user to select calendar month 
-  const selectedMonth = '2'
-  // @TODO get logged in user's employee number (used for login) or get from FLICA after logged in??
-  const userId = '30984'
-  let [calendarDaysResponse, setCalendarDaysResponseData] = React.useState('')
-  let [userScheduleResponse, setUserScheduleResponseData] = React.useState('')
-  const fetchUserSchedule = React.useCallback(() => {
-    const fetchBody = {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json',
-        'Authorization': `Bearer ${config.API_KEY}`
-      }
-    }
-    Promise.all([
-      fetch(`${config.API_BASE_URL}/schedules/${selectedMonth}`, fetchBody),
-      fetch(`${config.API_BASE_URL}/schedules?id=${userId}`, fetchBody)
-    ])
-      .then(([calDaysRes, userScheduleRes]) => {
-        if (!calDaysRes.ok) {
-          return calDaysRes.json().then(e => Promise.reject(e))
-        }
-        if (!userScheduleRes.ok) {
-          return userScheduleRes.json().then(e => Promise.reject(e))
-        }
-        return Promise.all([calDaysRes.json(), userScheduleRes.json()])
-      })
-      .then(([calDays, userSchedule]) => {
-        setCalendarDaysResponseData(calDays)
-        setUserScheduleResponseData(userSchedule)
-      })
-      .catch(err => console.log('there has been an error.', err))
-  }, [])
-    
-  React.useEffect(() => {
-    fetchUserSchedule()
-  }, [fetchUserSchedule])
-
-  // @TODO Debug why 14th and 15th both show DEN arrival instead of last leg arrival
+  const calendarDays = props.calendarDays
+  const userSchedule = props.userSchedule
+  const pairingLegs = props.pairingLegs
+  // console.log({userSchedule})
+  // @TODO Debug why some days show DEN arrival instead of last leg arrival
+  // Create state for userSchedule, update it after bidding on trip
   const renderTableRow = () => {
     let calRows = 
-      calendarDaysResponse && calendarDaysResponse.days_in_month
+      calendarDays && userSchedule && pairingLegs && calendarDays.days_in_month
         .map(day => {
-          const calDate = new Date(day).getDate()
+          const calDay = new Date(day).getDate()
+          const calMonth = new Date(day).getMonth()
           
-          const tripToday = userScheduleResponse ? userScheduleResponse.find(pairing => {
-            const startDate = new Date(pairing.pair_start).getDate()
-            return startDate === calDate
+          const tripStartToday = userSchedule ? userSchedule.find(pairing => {
+            const startDate = new Date(pairing.pair_start).getMonth() + '' + new Date(pairing.pair_start).getDate()
+            if (startDate === calMonth + '' + calDay) {
+              return true
+            }
+            return false
           }) : {}
+        
+          // Display last leg destination for each pairing on employees schedule
+          const legsInPairingToday = pairingLegs.filter(leg => {            
+            const isInPairing = userSchedule.filter(pairing => pairing.id === leg.pairing_id).length
+            const legArrivalDate = new Date(leg.arrival_time).getMonth() + '' + new Date(leg.arrival_time).getDate()
+            const legIsToday = legArrivalDate === calMonth + '' + calDay
+            return isInPairing && legIsToday
+          }) 
+          
+          // Use date-fns `isAfter()` to find last last leg arrival service for current day
+          let lastLegToday = legsInPairingToday[0]
+          for (let idx in legsInPairingToday) {
+            const thisLeg = legsInPairingToday[idx]
+            if (isAfter(new Date(thisLeg.arrival_time), new Date(lastLegToday.arrival_time))) {
+              lastLegToday = thisLeg
+            }
+          }
 
-          const lastLeg = props.pairingLegs ? props.pairingLegs.find(leg => {
-            const legArrivalDate = new Date(leg.arrival_time).getDate()
-            return legArrivalDate === calDate
-          }) : {}
-          
           return (
             <tr key={day}>
               <td>{getCalDay(new Date(day).getDay())}</td>
-              <td>{calDate ? (calDate) : null}</td>
-              <td>{tripToday ? (tripToday.pairing_i) : null}</td>
-              <td>{lastLeg ? (lastLeg.arrival_service) : null}</td>
+              <td>{calDay ? calDay : null}</td>
+              <td>{tripStartToday ? tripStartToday.pairing_id : null}</td>
+              <td className={props.isPeeking ? 'td--peeking' : ''}>
+                {lastLegToday ? lastLegToday.arrival_service : null}
+              </td>
             </tr>
           )
         })
