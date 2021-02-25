@@ -77,7 +77,7 @@ function Dashboard() {
   }, [fetchData])
 
   const handleAddPairing = (id) => {
-    // console.log('addpairingtosched', id)
+    console.log('addpairingtosched', id)
   }
 
   const handlePairingHover = (pairDateInterval) => {

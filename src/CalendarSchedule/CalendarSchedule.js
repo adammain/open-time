@@ -1,6 +1,6 @@
 import React from 'react'
-import { format, isAfter, isWithinInterval } from 'date-fns'
-import config from '../config'
+import { isAfter, isWithinInterval } from 'date-fns'
+// import config from '../config'
 
 import './CalendarSchedule.css'
 
@@ -40,8 +40,7 @@ const CalendarSchedule = (props) => {
           const calDay = new Date(day).getDate()
           const calMonth = new Date(day).getMonth()
           const calYear = new Date(day).getFullYear()
-          const today = new Date(day)
-          const tmrw = new Date("2021-02-28T07:00:00.000Z")
+
           if (highlightDateInterval && isWithinInterval(new Date(calYear, calMonth, calDay), {
             start: new Date(highlightDateInterval.start.year, highlightDateInterval.start.month, highlightDateInterval.start.day),
             end: new Date(highlightDateInterval.end.year, highlightDateInterval.end.month, highlightDateInterval.end.day)

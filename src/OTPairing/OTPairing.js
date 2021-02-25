@@ -16,7 +16,7 @@ function OTPairing(props) {
       depTime: new Date(leg.departure_time)
     }
   }) : []
-  const captain = props.captain && props.captain.map(captain => captain.first_name + ' ' + captain.last_name)
+  // const captain = props.captain && props.captain.map(captain => captain.first_name + ' ' + captain.last_name)
   // const first_officer = props.first_officer && props.first_officer.map(first_officer => first_officer.first_name + ' ' + first_officer.last_name)
   const layovers = props.layovers && props.layovers.map(layover => layover.airport)
   const duration = pairing.duration
