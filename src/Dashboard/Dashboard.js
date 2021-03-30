@@ -76,6 +76,14 @@ function Dashboard() {
     fetchData()
   }, [fetchData])
 
+  React.useEffect(() => {
+    if (!("Notification" in window)) {
+      console.log("This browser does not support desktop notification");
+    } else {
+      Notification.requestPermission();
+    }
+  })
+
   const handleAddPairing = (id) => {
     console.log('addpairingtosched', id)
   }
