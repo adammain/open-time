@@ -17,6 +17,7 @@ function Dashboard() {
   const userId = '30984'
   let [calendarDaysResponse, setCalendarDaysResponseData] = React.useState('')
   let [userScheduleResponse, setUserScheduleResponseData] = React.useState('')
+  let [opentimePairings, setOpentimePairings] = React.useState('')
   const [isHighlightingDateInterval, setIsHighlightingDateInterval] = React.useState(false)
 
   const fetchData = React.useCallback(() => { 
@@ -68,6 +69,8 @@ function Dashboard() {
         setHotelsResData(hotels)
         setCalendarDaysResponseData(calDays)
         setUserScheduleResponseData(userSchedule)
+        const opentimePairings = pairings && pairings.filter(pair => pair.time_in_opentime)
+        setOpentimePairings(opentimePairings)
       })
       .catch(err => console.log('there has been an error.', err))
   }, [])
@@ -86,6 +89,43 @@ function Dashboard() {
 
   const handleAddPairing = (id) => {
     console.log('addpairingtosched', id)
+    // e.preventDefault()
+    // setState
+    // create pairing object
+    const pairing = {
+      first_officer: 30984
+    }
+
+    // TODO: 
+    // MOCK FLICA BID PROCESS
+      // after user clicks on "add" button, change add button to "submitting bid..."
+      // then: "bid submitted"
+      // then: "Trip added!" or "Trip denied: ...reason."
+
+    // TODO: commit changes for API and client after feature completed
+    fetch(`${config.API_BASE_URL}/pairings/${id}/`, {
+      method: 'PATCH',
+      body: JSON.stringify(pairing),
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${config.API_KEY}`
+      }
+    })
+      .then(res => {
+        if (!res.ok) { {
+          console.log('response is not ok')
+          throw new Error(res.status)
+        }
+        } else {
+          console.log('response was ok', res)
+          return res
+        }
+      })
+      .then(data => {
+        console.log(data)
+        fetchData()
+      })
+      .catch(error => console.log("ERROR", error))
   }
 
   const handlePairingHover = (pairDateInterval) => {
@@ -110,6 +150,7 @@ function Dashboard() {
         <section className='Dashboard__section'>
           <h2>OPENTIME Feed</h2>
           <OTFeed 
+            opentimePairings={opentimePairings}
             pairings={pairingsResponse} 
             pairingLegs={pairingLegsResponse}
             employees={employeeesResponse}

@@ -7,32 +7,36 @@ function OTFeed(props) {
   let [opentimePairingsTemp, setOpentimePairingsTemp] = React.useState('')
 
   React.useEffect(() => {
-    const otPairings = props.pairings && props.pairings.filter(pair => pair.time_in_opentime)
-    setOpentimePairingsTemp(otPairings)
-  }, [props.pairings])
+    console.log({props})
+    // const otPairings = props.pairings && props.pairings.filter(pair => pair.time_in_opentime)
+    setOpentimePairings(props.opentimePairings)
+    console.log({opentimePairings})
+  }, [props.opentimePairings])
 
+  // Mock of new opentime pairings displaying in feed using setTimeout()
   React.useEffect(() => {
-    let opentimeInterval = setTimeout(() => {
-      const totalOpentimePairings = 4
+    // let opentimeInterval = setTimeout(() => {
+    //   const totalOpentimePairings = 4
 
-      if (interval >= totalOpentimePairings) {
-        console.log("DONE")
-        return
-      } 
+    //   if (interval >= totalOpentimePairings) {
+    //     console.log("DONE")
+    //     return
+    //   } 
 
-      let nextPairing = opentimePairingsTemp[interval]
-      if (nextPairing && opentimePairings.indexOf(nextPairing.id) === -1) {
-        setInterval(interval + 1)
-        setOpentimePairings(opentimePairings => [...opentimePairings, nextPairing])
-      }       
-    }, 3000 + (interval * 25000))
+    //   let nextPairing = opentimePairingsTemp[interval]
+    //   if (nextPairing && opentimePairings.indexOf(nextPairing.id) === -1) {
+    //     setInterval(interval + 1)
+    //     setOpentimePairings(opentimePairings => [...opentimePairings, nextPairing])
+    //   }       
+    // }, 3000 + (interval * 25000))
+
 
   }, [opentimePairings, props.pairings, opentimePairingsTemp])
 
   // Hack to only show notifications for each new pairing as opposed to each render
-  if (opentimePairings.length !== interval) {
-    new Notification('New pairing to bid on!')
-  }
+  // if (opentimePairings.length !== interval) {
+  //   new Notification('New pairing to bid on!')
+  // }
 
   return (
     <div className='OTFeed'>
