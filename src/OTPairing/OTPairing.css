@@ -1,3 +1,7 @@
+.hidden {
+  display: none;
+}
+
 .OTPairing {
   padding: .7em 0 0 0;
   height: 4.4em;
@@ -9,9 +13,13 @@
   margin-top: .5em;
 }
 
+.OTPairing__summary--item-body {
+  font-size: 12px;
+}
+
 .OTPairing__summary--item {
-  margin-right: .7em;
-  width: 3.3em;
+  margin-right: .5em;
+  width: 2.9em;
 }
 
 .OTPairing__summary--item-heading {
@@ -36,4 +44,26 @@ button {
   transition: background 250ms ease-in-out, transform 150ms ease;
   -webkit-appearance: none;
   -moz-appearance: none;
+}
+
+
+@media only screen and (min-width: 576px) {
+  .OTPairing__summary--item-body {
+    font-size: small;
+  }
+  
+  .OTPairing__summary--item {
+    width: 3.3em;
+  }
+  
+  .OTPairing__summary--item-heading {
+    font-size: x-small;
+    color: lightslategray;
+  }
+}
+
+@media only screen and (min-width: 701px) {
+  .hidden {
+    display: initial;
+  }
 }

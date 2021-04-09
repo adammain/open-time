@@ -33,6 +33,7 @@ function OTPairing(props) {
   let pairDepartTime = pairingLegs.length && format(pairingLegs[0].depTime, 'HH:mm')
   let pairArrivalTime = pairingLegs.length && format(pairingLegs[pairingLegs.length-1].arrTime, 'HH:mm')
   // const hotels = props.hotels
+  // TODO: Create components for each summary item below
   return (
     <div className='OTPairing'>
       <div className='OTPairing__wrapper'>
@@ -43,38 +44,38 @@ function OTPairing(props) {
         <div className='OTPairing__summary'>
           <div className='OTPairing__summary--item'>
             <div className='OTPairing__summary--item-heading'>Pairing</div>
-            <div>{pairing.pairing_id}</div>
+            <div className='OTPairing__summary--item-body'>{pairing.pairing_id}</div>
           </div>
           <div className='OTPairing__summary--item'>
             <div className='OTPairing__summary--item-heading'>Report</div>
-            <div>{reportTime}</div>
+            <div className='OTPairing__summary--item-body'>{reportTime}</div>
           </div>
           <div className='OTPairing__summary--item'>
             <div className='OTPairing__summary--item-heading'>Depart</div>
-            <div>{pairDepartTime}</div>
+            <div className='OTPairing__summary--item-body'>{pairDepartTime}</div>
           </div>
           <div className='OTPairing__summary--item'>
             <div className='OTPairing__summary--item-heading'>Arrive</div>
-            <div>{pairArrivalTime}</div>
+            <div className='OTPairing__summary--item-body'>{pairArrivalTime}</div>
           </div>
           <div className='OTPairing__summary--item'>
             <div className='OTPairing__summary--item-heading'>Blk Hrs</div>
-            <div>{('0' + pairing.total_block.hours).slice(-2) + (pairing.total_block.minutes ? ('0' + pairing.total_block.minutes).slice(-2) : `00`)}</div>
+            <div className='OTPairing__summary--item-body'>{('0' + pairing.total_block.hours).slice(-2) + (pairing.total_block.minutes ? ('0' + pairing.total_block.minutes).slice(-2) : `00`)}</div>
           </div>
           <div className='OTPairing__summary--item'>
             <div className='OTPairing__summary--item-heading'>Credit</div>
-            <div>{('0' + pairing.total_credit.hours).slice(-2) + (pairing.total_credit.minutes ? ('0' + pairing.total_credit.minutes).slice(-2) : `00`)}</div>
+            <div className='OTPairing__summary--item-body'>{('0' + pairing.total_credit.hours).slice(-2) + (pairing.total_credit.minutes ? ('0' + pairing.total_credit.minutes).slice(-2) : `00`)}</div>
           </div>
-          <div className='OTPairing__summary--item'>
+          <div className='OTPairing__summary--item hidden'>
             <div className='OTPairing__summary--item-heading'>TOT</div>
-            <div>{(pairing.time_in_opentime.hours ? ('0' + pairing.time_in_opentime.hours).slice(-2) : `00`) + `:` + (pairing.time_in_opentime.minutes ? ('0' + pairing.time_in_opentime.minutes).slice(-2) : `00`)}</div>
+            <div className='OTPairing__summary--item-body'>{(pairing.time_in_opentime.hours ? ('0' + pairing.time_in_opentime.hours).slice(-2) : `00`) + `:` + (pairing.time_in_opentime.minutes ? ('0' + pairing.time_in_opentime.minutes).slice(-2) : `00`)}</div>
           </div>
           <div className='OTPairing__summary--item'>
             <div className='OTPairing__summary--item-heading'>Layovers</div>
-            <div>{layovers}</div>
+            <div className='OTPairing__summary--item-body'>{layovers}</div>
           </div>
           {/* @TODO Add premium column to database and include here */}
-          <div className='OTPairing__summary--item'>
+          <div className='OTPairing__summary--item hidden'>
             <div className='OTPairing__summary--item-heading'>Premium</div>
             {/* <div>{layovers}</div> */}
           </div>

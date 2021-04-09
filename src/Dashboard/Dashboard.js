@@ -135,7 +135,7 @@ function Dashboard() {
   return (
     <main className='Dashboard'>
       <div className='Dashboard__container'>
-        <aside className='Dashboard__aside'>
+        <aside className='Dashboard__aside hidden'>
           <CalendarSchedule 
             pairings={pairingsResponse} 
             pairingLegs={pairingLegsResponse}

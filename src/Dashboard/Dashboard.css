@@ -2,6 +2,10 @@
   visibility: hidden;
 }
 
+.Dashboard__aside {
+  height: 0;
+}
+
 @media (min-width: 576px) {
   .Dashboard__container {
     display: flex;
