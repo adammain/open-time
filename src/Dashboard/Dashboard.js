@@ -112,10 +112,9 @@ function Dashboard() {
       }
     })
       .then(res => {
-        if (!res.ok) { {
+        if (!res.ok) {
           console.log('response is not ok')
           throw new Error(res.status)
-        }
         } else {
           console.log('response was ok', res)
           return res
